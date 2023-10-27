@@ -2,7 +2,12 @@ package com.example.demo.classes.model;
 
 import com.example.demo.classifiers.model.Classifier;
 import com.example.demo.studio.model.Position;
+import com.fasterxml.jackson.annotation.JsonView;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.sql.Date;
 import java.sql.Time;
@@ -10,29 +15,40 @@ import java.util.List;
 
 @Entity
 @Table(name = "class")
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
 public class Classes {
     @Id
     @Column(name = "id", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    @JsonView
+    private Long id;
 
     @Column(name = "name", nullable = false)
+    @JsonView
     private String name;
 
     @Column(name = "date_of", nullable = false)
+    @JsonView
     private Date date;
 
     @Column(name = "start_time", nullable = false)
+    @JsonView
     private Time startTime;
 
     @Column(name = "end_time", nullable = false)
+    @JsonView
     private Time endTime;
 
     @Column(name = "amount")
+    @JsonView
     private float amount;
 
     @ManyToOne
     @JoinColumn(name = "pos_id", nullable = false)
+    @JsonView
     private Position position;
 
     @ManyToMany(fetch=FetchType.EAGER)
@@ -41,96 +57,20 @@ public class Classes {
             joinColumns = { @JoinColumn(name = "class_id") },
             inverseJoinColumns = { @JoinColumn(name = "classifier_id") }
     )
-    List<Classifier> classifiers;
-
-    public Classes() {
-    }
-
-    public Classes(long id, String name, Date date, Time startTime, Time endTime, float amount, Position position) {
-        this.id = id;
-        this.name = name;
-        this.date = date;
-        this.startTime = startTime;
-        this.endTime = endTime;
-        this.amount = amount;
-        this.position = position;
-    }
+    @JsonView
+    private List<Classifier> classifiers = List.of();
 
     @Override
     public String toString() {
         return "Classes{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", date=" + date +
-                ", startTime=" + startTime +
-                ", endTime=" + endTime +
-                ", amount=" + amount +
-                ", position=" + position +
-                ", classifiers=" + classifiers +
-                '}';
-    }
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public Date getDate() {
-        return date;
-    }
-
-    public void setDate(Date date) {
-        this.date = date;
-    }
-
-    public Time getStartTime() {
-        return startTime;
-    }
-
-    public void setStartTime(Time startTime) {
-        this.startTime = startTime;
-    }
-
-    public Time getEndTime() {
-        return endTime;
-    }
-
-    public void setEndTime(Time endTime) {
-        this.endTime = endTime;
-    }
-
-    public float getAmount() {
-        return amount;
-    }
-
-    public void setAmount(float amount) {
-        this.amount = amount;
-    }
-
-    public Position getPosition() {
-        return position;
-    }
-
-    public void setPosition(Position position) {
-        this.position = position;
-    }
-
-    public List<Classifier> getClassifiers() {
-        return classifiers;
-    }
-
-    public void setClassifiers(List<Classifier> classifiers) {
-        this.classifiers = classifiers;
+                "id=" + id + ", " +
+                "name=" + name + ", " +
+                "date=" + date + ", " +
+                "start-time=" + startTime + ", " +
+                "end-time=" + endTime + ", " +
+                "amount=" + amount + ", " +
+                "position=" + position + ", " +
+                "classifiers=" + classifiers +
+                "}";
     }
 }

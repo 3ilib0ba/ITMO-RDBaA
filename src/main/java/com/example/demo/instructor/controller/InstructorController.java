@@ -1,58 +1,40 @@
 package com.example.demo.instructor.controller;
 
-import com.example.demo.instructor.exceptions.CreatingInstructorException;
-import com.example.demo.instructor.exceptions.InstructorNotFoundExceptions;
+import com.example.demo.instructor.dto.InstructorDTO;
+import com.example.demo.instructor.model.Instructor;
 import com.example.demo.instructor.service.InstructorService;
+import jakarta.validation.Valid;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
-import java.util.Map;
-
 @RestController
-@RequestMapping("/instructor")
+@RequestMapping("/instructors")
+@Slf4j
 public class InstructorController {
-    @Autowired
     private InstructorService instructorService;
-
-    @GetMapping(value = "/byId", produces = "application/json;charset=UTF-8")
-    public ResponseEntity<?> getInstructorById(
-            @RequestParam(name = "id") Long id
+    @Autowired
+    public InstructorController(
+            InstructorService instructorService
     ) {
-        System.out.println("/instructor/byId");
-        Map<Object, Object> model = new HashMap<>();
-
-        try {
-            model.put("message", instructorService.getInstructorById(id).toString());
-        } catch (InstructorNotFoundExceptions ex) {
-            model.put("message", "INSTRUCTOR_NOT_FOUND");
-            return new ResponseEntity<>(model, HttpStatus.BAD_REQUEST);
-        }
-
-        return new ResponseEntity<>(model, HttpStatus.OK);
+        this.instructorService = instructorService;
     }
 
-    @PostMapping(value = "/add", produces = "application/json;charset=UTF-8")
-    public ResponseEntity<?> addNewInstructor(
-            @RequestParam("name") String name,
-            @RequestParam("mail") String mail,
-            @RequestParam("phone") String phone,
-            @RequestParam("gender") String gender
-    ) {
-        System.out.println("/instructor/add");
-        Map<Object, Object> model = new HashMap<>();
+    @GetMapping(value = "/{id}",
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Instructor> getInstructorById(@PathVariable("id") Long id) {
+        log.info("get /instructors/{" + id + "}");
+        return ResponseEntity.ok(instructorService.getInstructorById(id));
+    }
 
-        try {
-            model.put("message", instructorService.addInstructor(
-                    name, mail, phone, gender).toString());
-        }  catch (CreatingInstructorException ex) {
-            model.put("message", "ERROR_WITH_CREATING_THIS_ENTITY");
-            return new ResponseEntity<>(model, HttpStatus.BAD_REQUEST);
-        }
-
-        return new ResponseEntity<>(model, HttpStatus.OK);
+    @PostMapping(value = "",
+            consumes = MediaType.APPLICATION_JSON_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Instructor> addNewInstructor(@Valid @RequestBody InstructorDTO instructorDTO) {
+        log.info("post /instructors");
+        return ResponseEntity.ok(instructorService.addInstructor(instructorDTO));
     }
 
 }

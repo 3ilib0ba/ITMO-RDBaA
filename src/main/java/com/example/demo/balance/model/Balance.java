@@ -2,60 +2,42 @@ package com.example.demo.balance.model;
 
 
 import com.example.demo.client.model.Role;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonView;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
 @Table(name = "balance")
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
+@JsonIgnoreProperties({"hibernateLazyInitializer"})
 public class Balance {
     @Id
     @Column(name = "id", nullable = false)
-    private long id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @JsonView
+    private Long id;
 
     @Column(name = "value")
+    @JsonView
     private Float value;
 
     @ManyToOne
     @JoinColumn(name = "role_id", nullable = false)
+    @JsonView
     private Role role;
-
-    public Balance() {
-    }
-
-    public Balance(Long id, Float value, Role role) {
-        this.id = id;
-        this.value = value;
-        this.role = role;
-    }
-
-    public Float getValue() {
-        return value;
-    }
-
-    public void setValue(float value) {
-        this.value = value;
-    }
-
-    public Role getRole() {
-        return role;
-    }
-
-    public void setRole(Role role) {
-        this.role = role;
-    }
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
 
     @Override
     public String toString() {
         return "Balance{" +
-                "value=" + value +
-                ", role=" + role +
-                '}';
+                "value=" + value + ", " +
+                "role=" + role +
+                "}";
     }
 }

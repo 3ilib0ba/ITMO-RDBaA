@@ -1,75 +1,57 @@
 package com.example.demo.classifiers.controller;
 
-import com.example.demo.classifiers.exceptions.ClassifierNotFoundException;
+import com.example.demo.classifiers.dto.ClassifierDTO;
+import com.example.demo.classifiers.model.Classifier;
 import com.example.demo.classifiers.service.ClassifiersService;
+import jakarta.validation.Valid;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
 
 @RestController
 @RequestMapping("/classifiers")
+@Slf4j
 public class ClassifiersController {
-    @Autowired
     private ClassifiersService classifiersService;
-
-    @GetMapping(value = "/byId", produces = "application/json;charset=UTF-8")
-    public ResponseEntity<?> getClassifierById(
-            @RequestParam(name = "id") Long id
+    @Autowired
+    public ClassifiersController(
+            ClassifiersService classifiersService
     ) {
-        System.out.println("/classifiers/byId");
-        Map<Object, Object> model = new HashMap<>();
-
-        try {
-            model.put("message", classifiersService.getClassifierById(id).toString());
-        } catch (ClassifierNotFoundException ex) {
-            model.put("message", "CLASSIFIER_NOT_FOUND");
-            return new ResponseEntity<>(model, HttpStatus.BAD_REQUEST);
-        }
-
-        return new ResponseEntity<>(model, HttpStatus.OK);
+        this.classifiersService = classifiersService;
     }
 
-    @GetMapping(value = "/byNameAndValue", produces = "application/json;charset=UTF-8")
-    public ResponseEntity<?> getClassifierByNameAndValue(
-            @RequestParam(name = "name") String name,
-            @RequestParam(name = "value") String value
-    ) {
-        System.out.println("/classifiers/byNameAndValue");
-        Map<Object, Object> model = new HashMap<>();
-
-        try {
-            model.put("message", classifiersService.getClassifierByNameAndValue(name, value).toString());
-        } catch (ClassifierNotFoundException ex) {
-            model.put("message", "CLASSIFIER_NOT_FOUND");
-            return new ResponseEntity<>(model, HttpStatus.BAD_REQUEST);
-        }
-
-        return new ResponseEntity<>(model, HttpStatus.OK);
+    @GetMapping(value = "/{id}",
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Classifier> getClassifierById(@PathVariable("id") Long id) {
+        log.info("get /classifiers/{" + id + "}");
+        return ResponseEntity.ok(classifiersService.getClassifierById(id));
     }
 
-    @GetMapping(value = "/getAll", produces = "application/json;charset=UTF-8")
-    public ResponseEntity<?> getAllClassifiers() {
-        System.out.println("/classifiers/getAll");
-        Map<Object, Object> model = new HashMap<>();
-
-        model.put("message", classifiersService.getAllClassifiers().toString());
-        return new ResponseEntity<>(model, HttpStatus.OK);
+    @GetMapping(value = "/name/{name}/value/{value}",
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Classifier> getClassifierByNameAndValue(
+            @PathVariable("name") String name, @PathVariable("value") String value) {
+        log.info("get /classifiers/name/{" + name + "}/value{" + value + "}");
+        return ResponseEntity.ok(classifiersService.getClassifierByNameAndValue(name, value));
     }
 
-    @PostMapping(value = "/add", produces = "application/json;charset=UTF-8")
-    public ResponseEntity<?> addNewClassifier(
-            @RequestParam("name") String name,
-            @RequestParam("value") String value
-    ) {
-        System.out.println("/classifiers/add");
-        Map<Object, Object> model = new HashMap<>();
+    @GetMapping(value = "",
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<Classifier>> getAllClassifiers() {
+        log.info("get /classifiers");
+        return ResponseEntity.ok(classifiersService.getAllClassifiers());
+    }
 
-        model.put("message", classifiersService.addNewClassifier(name, value).toString());
-        return new ResponseEntity<>(model, HttpStatus.OK);
+    @PostMapping(value = "",
+            consumes = MediaType.APPLICATION_JSON_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Classifier> addNewClassifier(@Valid @RequestBody ClassifierDTO classifierDTO) {
+        log.info("post /classifiers");
+        return ResponseEntity.ok(classifiersService.addNewClassifier(classifierDTO));
     }
 
 

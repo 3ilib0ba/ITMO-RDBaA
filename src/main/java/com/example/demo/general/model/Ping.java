@@ -1,39 +1,34 @@
 package com.example.demo.general.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
+import com.fasterxml.jackson.annotation.JsonView;
+import jakarta.persistence.*;
+import lombok.*;
 
-import jakarta.persistence.Table;
 import java.sql.Time;
 
 @Data
 @Entity
 @Getter
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name = "ping")
 public class Ping {
-    @jakarta.persistence.Id
+    @Id
     @Column(name = "id", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @JsonView
     private Long id;
 
     @Column(name = "time_of_ping")
-    private Time time_of_ping;
-
-    public Ping(Time time) {
-        this.time_of_ping = time;
-    }
-
-    public Ping() {
-    }
+    @JsonView
+    private Time timeOfPing;
 
     @Override
     public String toString() {
-        return "id: " + id + ", time of it: " + time_of_ping.toString();
+        return "Ping{" +
+                "id=" + id + ", " +
+                "time-of-ping=" + timeOfPing +
+                "}";
     }
 }
