@@ -35,6 +35,7 @@ public class PositionService {
     }
 
     public List<Position> getAllPositionByStudioId(Long studioId) {
+        studioService.getStudioById(studioId);
         List<Position> positions = positionRepository.findByStudio_Id(studioId);
         if (positions == null)
             throw new PositionsNotFoundException(studioId);
