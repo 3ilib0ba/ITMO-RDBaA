@@ -45,6 +45,9 @@ public class ClientService {
             throw new PhoneIsAlreadyExistException(clientDTO.getPhone());
 
         Role role = roleRepository.getRoleByRoleIgnoreCase(RoleConfig.ROLE_USER.toString());
+        if (role == null) {
+            throw new RoleNotFoundException(RoleConfig.ROLE_USER.toString());
+        }
         Client client = new Client(
                 null,
                 clientDTO.getName(),

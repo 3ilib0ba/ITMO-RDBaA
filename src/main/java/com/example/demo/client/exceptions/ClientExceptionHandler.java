@@ -34,4 +34,11 @@ public class ClientExceptionHandler {
         return new ErrorDTO(
                 HttpStatus.BAD_REQUEST.name(), ex.getMessage(), LocalDateTime.now());
     }
+
+    @ExceptionHandler(RoleNotFoundException.class)
+    @ResponseStatus(value = HttpStatus.BAD_REQUEST)
+    public ErrorDTO handleRoleNotFoundException(RoleNotFoundException ex) {
+        return new ErrorDTO(
+                HttpStatus.BAD_REQUEST.name(), ex.getMessage(), LocalDateTime.now());
+    }
 }
