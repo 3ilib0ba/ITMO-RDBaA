@@ -1,5 +1,6 @@
 package com.example.demo.studio.exceptions;
 
+import com.example.demo.client.exceptions.RoleNotFoundException;
 import com.example.demo.common.dto.ErrorDTO;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -29,6 +30,13 @@ public class StudioExceptionHandler {
     @ExceptionHandler(TinIsAlreadyExistException.class)
     @ResponseStatus(value = HttpStatus.BAD_REQUEST)
     public ErrorDTO handleTinIsAlreadyExistException(TinIsAlreadyExistException ex) {
+        return new ErrorDTO(
+                HttpStatus.BAD_REQUEST.name(), ex.getMessage(), LocalDateTime.now());
+    }
+
+    @ExceptionHandler(RoleNotFoundException.class)
+    @ResponseStatus(value = HttpStatus.BAD_REQUEST)
+    public ErrorDTO handleRoleNotFoundException(RoleNotFoundException ex) {
         return new ErrorDTO(
                 HttpStatus.BAD_REQUEST.name(), ex.getMessage(), LocalDateTime.now());
     }

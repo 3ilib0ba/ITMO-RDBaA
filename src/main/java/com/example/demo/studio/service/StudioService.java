@@ -2,6 +2,7 @@ package com.example.demo.studio.service;
 
 import com.example.demo.balance.model.Balance;
 import com.example.demo.balance.repository.BalanceRepository;
+import com.example.demo.client.exceptions.RoleNotFoundException;
 import com.example.demo.common.exceptions.MailIsAlreadyExistException;
 import com.example.demo.client.model.Role;
 import com.example.demo.client.repository.RoleRepository;
@@ -79,6 +80,9 @@ public class StudioService {
             throw new TinIsAlreadyExistException(studioDTO.getTin());
 
         Role role = roleRepository.getRoleByRoleIgnoreCase(RoleConfig.ROLE_MANAGER.toString());
+        if (role == null) {
+            throw new RoleNotFoundException(RoleConfig.ROLE_MANAGER.toString());
+        }
         LegalInfo legalInfo = addLegalInfo(
                 studioDTO.getFullDescription(),
                 studioDTO.getPhone(),
