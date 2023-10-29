@@ -46,8 +46,8 @@ public class JSONExceptionHandler {
         log.info(message);
         String field = Pattern.compile("\"(.*?)\"")
                 .matcher(message).results().map(mr -> mr.group(1)).findFirst().get();
-        String cause = message.substring(message.indexOf("expected"));
-        error.getViolations().add(new ViolationDTO(field, cause));
+        // String cause = message.substring(message.indexOf("expected"));
+        error.getViolations().add(new ViolationDTO(field, message));
         return error;
     }
 }
