@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
 import java.time.LocalDateTime;
 import java.util.regex.Pattern;
@@ -38,6 +39,7 @@ public class JSONExceptionHandler {
         }
         return error;
     }
+
     @ExceptionHandler(HttpMessageNotReadableException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     ValidationErrorDTO onHttpMessageNotReadableException(HttpMessageNotReadableException e) {
@@ -46,8 +48,21 @@ public class JSONExceptionHandler {
         log.info(message);
         String field = Pattern.compile("\"(.*?)\"")
                 .matcher(message).results().map(mr -> mr.group(1)).findFirst().get();
-        String cause = message.substring(message.indexOf("expected"));
-        error.getViolations().add(new ViolationDTO(field, cause));
+        // String cause = message.substring(message.indexOf("expected"));
+        error.getViolations().add(new ViolationDTO(field, message));
+        return error;
+    }
+
+    @ExceptionHandler(MethodArgumentTypeMismatchException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    ValidationErrorDTO onMethodArgumentTypeMismatchException(MethodArgumentTypeMismatchException e) {
+        ValidationErrorDTO error = new ValidationErrorDTO();
+        String message = e.getMessage();
+        log.info(message);
+        String field = Pattern.compile("\"(.*?)\"")
+                .matcher(message).results().map(mr -> mr.group(1)).findFirst().get();
+        // String cause = message.substring(message.indexOf("expected"));
+        error.getViolations().add(new ViolationDTO(field, message));
         return error;
     }
 }
