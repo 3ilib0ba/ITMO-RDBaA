@@ -5,5 +5,7 @@ import lombok.Data;
 @Data
 public class ViolationDTO {
     private final String fieldName;
+
     private final String message;
+
 }

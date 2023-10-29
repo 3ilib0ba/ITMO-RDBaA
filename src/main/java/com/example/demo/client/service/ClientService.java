@@ -55,8 +55,9 @@ public class ClientService {
                 clientDTO.getPhone(),
                 clientDTO.getGender(),
                 role,
-                null
+                new Balance(balanceRepository.count() + 1, 0f, role)
         );
+
         Balance balance = balanceRepository.save(
                 new Balance(balanceRepository.count() + 1, 0f, role)
         );

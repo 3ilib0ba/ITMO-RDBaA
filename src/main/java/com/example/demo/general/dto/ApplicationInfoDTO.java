@@ -9,7 +9,9 @@ public class ApplicationInfoDTO {
     @JsonView
     @NotBlank(message = "Application-name is required")
     private final String applicationName;
+
     @JsonView
     @NotBlank(message = "Author-name is required")
     private final String authorName;
+
 }

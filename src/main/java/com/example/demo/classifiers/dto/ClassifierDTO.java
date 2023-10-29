@@ -11,8 +11,10 @@ public class ClassifierDTO {
     @NotBlank(message = "Name is required")
     @ToUpperCase
     private String name;
+
     @JsonView
     @NotBlank(message = "Value is required")
     @ToUpperCase
     private String value;
+
 }
