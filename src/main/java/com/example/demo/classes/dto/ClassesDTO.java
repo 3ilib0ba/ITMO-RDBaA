@@ -22,15 +22,15 @@ public class ClassesDTO {
     @JsonView
     @NotNull(message = "Date cannot be null")
     @JsonFormat(pattern = "yyyy-MM-dd")
-    private final Date date;
+    private Date date;
     @JsonView
     @NotNull(message = "Start cannot be null")
     @JsonDeserialize(using = CustomJsonTimeDeserializer.class)
-    private final Time start;
+    private Time start;
     @JsonView
     @NotNull(message = "End cannot be null")
     @JsonDeserialize(using = CustomJsonTimeDeserializer.class)
-    private final Time end;
+    private Time end;
     @JsonView
     @NotNull(message = "Amount cannot be null")
     @Min(value = 0, message = "Amount must be >= 0")
