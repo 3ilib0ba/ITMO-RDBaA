@@ -3,17 +3,13 @@ package com.example.demo.client.model;
 
 import com.fasterxml.jackson.annotation.JsonView;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
-@Entity
-@Table(name = "role")
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Getter
-@Setter
+@Entity
+@Table(name = "role")
 public class Role {
     @Id
     @Column(name = "id", nullable = false)

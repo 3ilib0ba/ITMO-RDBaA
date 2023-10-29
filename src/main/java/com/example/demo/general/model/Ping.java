@@ -7,11 +7,9 @@ import lombok.*;
 import java.sql.Time;
 
 @Data
-@Entity
-@Getter
-@Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@Entity
 @Table(name = "ping")
 public class Ping {
     @Id

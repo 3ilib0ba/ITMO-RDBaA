@@ -3,22 +3,16 @@ package com.example.demo.booking.dto;
 import com.fasterxml.jackson.annotation.JsonView;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
-@Setter
-@Getter
-@AllArgsConstructor
-@NoArgsConstructor
+@Data
 public class BookingDTO {
     @JsonView
     @NotNull(message = "Client-id cannot be null")
     @Min(value = 1, message = "Client-id must be >= 1")
-    private Long clientId;
+    private final Long clientId;
     @JsonView
     @NotNull(message = "Class-id cannot be null")
     @Min(value = 1, message = "Class-id must be >= 1")
-    private Long classId;
+    private final Long classId;
 }

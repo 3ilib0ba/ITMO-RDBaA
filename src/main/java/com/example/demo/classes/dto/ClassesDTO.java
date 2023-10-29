@@ -8,18 +8,12 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.sql.Time;
 import java.util.Date;
 
-@Setter
-@Getter
-@AllArgsConstructor
-@NoArgsConstructor
+@Data
 public class ClassesDTO {
     @JsonView
     @NotBlank(message = "Name is required")
@@ -28,21 +22,21 @@ public class ClassesDTO {
     @JsonView
     @NotNull(message = "Date cannot be null")
     @JsonFormat(pattern = "yyyy-MM-dd")
-    private Date date;
+    private final Date date;
     @JsonView
     @NotNull(message = "Start cannot be null")
     @JsonDeserialize(using = CustomJsonTimeDeserializer.class)
-    private Time start;
+    private final Time start;
     @JsonView
     @NotNull(message = "End cannot be null")
     @JsonDeserialize(using = CustomJsonTimeDeserializer.class)
-    private Time end;
+    private final Time end;
     @JsonView
     @NotNull(message = "Amount cannot be null")
     @Min(value = 0, message = "Amount must be >= 0")
-    private Float amount;
+    private final Float amount;
     @JsonView
     @NotNull(message = "Pos-id cannot be null")
     @Min(value = 1, message = "Pos-id must be >= 1")
-    private Long posId;
+    private final Long posId;
 }

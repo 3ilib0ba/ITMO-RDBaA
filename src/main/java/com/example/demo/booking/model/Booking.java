@@ -4,17 +4,13 @@ import com.example.demo.classes.model.Classes;
 import com.example.demo.client.model.Client;
 import com.fasterxml.jackson.annotation.JsonView;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
-@Entity
-@Table(name = "booking")
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Getter
-@Setter
+@Entity
+@Table(name = "booking")
 public class Booking {
     @Id
     @Column(name = "id", nullable = false)
@@ -31,6 +27,7 @@ public class Booking {
     @JoinColumn(name = "class_id", nullable = false)
     @JsonView
     private Classes bookingClass;
+
     @Override
     public String toString() {
         return "Booking{" +

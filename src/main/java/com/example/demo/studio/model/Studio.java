@@ -4,17 +4,13 @@ import com.example.demo.balance.model.Balance;
 import com.example.demo.client.model.Role;
 import com.fasterxml.jackson.annotation.JsonView;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
-@Entity
-@Table(name = "studio")
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Getter
-@Setter
+@Entity
+@Table(name = "studio")
 public class Studio {
     @Id
     @Column(name = "id", nullable = false)

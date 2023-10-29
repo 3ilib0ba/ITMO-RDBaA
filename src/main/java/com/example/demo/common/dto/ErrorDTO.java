@@ -1,18 +1,12 @@
 package com.example.demo.common.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
-@AllArgsConstructor
-@NoArgsConstructor
-@Getter
-@Setter
+@Data
 public class ErrorDTO {
-    private String code;
-    private String message;
-    private LocalDateTime time;
+    private final String code;
+    private final String message;
+    private final LocalDateTime time;
 }

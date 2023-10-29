@@ -4,20 +4,15 @@ import com.example.demo.classes.model.Classes;
 import com.example.demo.classifiers.model.Classifier;
 import com.fasterxml.jackson.annotation.JsonView;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.List;
 
-
-@Entity
-@Table(name = "instructor")
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Getter
-@Setter
+@Entity
+@Table(name = "instructor")
 public class Instructor {
     @Id
     @Column(name = "id", nullable = false)
