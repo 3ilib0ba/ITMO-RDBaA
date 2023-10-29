@@ -13,8 +13,12 @@ import java.util.List;
 
 @Service
 public class ClassifiersService {
-    @Autowired
     private ClassifierRepository classifierRepository;
+
+    @Autowired
+    public ClassifiersService(ClassifierRepository classifierRepository) {
+        this.classifierRepository = classifierRepository;
+    }
 
     public Classifier getClassifierById(Long id) {
         return classifierRepository.findById(id).orElseThrow(() -> new ClientNotFoundException(id));
