@@ -6,5 +6,4 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ClassRepository extends JpaRepository<Classes, Long> {
-    public Classes getClassesById(Long id);
 }

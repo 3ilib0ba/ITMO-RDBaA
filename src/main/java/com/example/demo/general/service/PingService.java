@@ -10,13 +10,20 @@ import java.util.List;
 
 @Service
 public class PingService {
-
-    @Autowired
     private PingRepository pingRepository;
+    @Autowired
+    public PingService(
+            PingRepository pingRepository
+    ) {
+        this.pingRepository = pingRepository;
+    }
 
-    public void addNewPingFromNow() {
-        Ping ping_current = new Ping(new Time(System.currentTimeMillis()));
-        pingRepository.save(ping_current);
+    public Ping addNewPingFromNow() {
+        Ping pingCurrent = new Ping(
+                null,
+                new Time(System.currentTimeMillis())
+        );
+        return pingRepository.save(pingCurrent);
     }
 
     public List<Ping> getAllPings() {

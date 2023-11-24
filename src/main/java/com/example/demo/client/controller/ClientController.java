@@ -1,76 +1,48 @@
 package com.example.demo.client.controller;
 
-import com.example.demo.client.exceptions.*;
+import com.example.demo.client.dto.ClientDTO;
+import com.example.demo.client.model.Client;
 import com.example.demo.client.service.ClientService;
+import jakarta.validation.Valid;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
 
 @RestController
-@RequestMapping("client/")
+@RequestMapping("/clients")
+@Slf4j
 public class ClientController {
-
-    @Autowired
     private ClientService clientService;
-
-    @GetMapping(value = "/{clientId}", produces = "application/json;charset=UTF-8")
-    public ResponseEntity<?> getUserInfo(
-            @PathVariable Long clientId
+    @Autowired
+    public ClientController(
+            ClientService clientService
     ) {
-        System.out.println("/client/" + clientId);
-        Map<Object, Object> model = new HashMap<>();
-
-        try {
-            model.put("Client:", clientService.getClient(clientId).toString());
-        } catch (ClientNotFoundException ex) {
-            model.put("message", "CLIENT_NOT_FOUND");
-            return new ResponseEntity<>(model, HttpStatus.BAD_REQUEST);
-        }
-
-        return new ResponseEntity<>(model, HttpStatus.OK);
+        this.clientService = clientService;
     }
 
-    @PostMapping(value = "/add", produces = "application/json;charset=UTF-8")
-    public ResponseEntity<?> addUser(
-            @RequestParam("name") String name,
-            @RequestParam("mail") String mail,
-            @RequestParam("phone") String phone,
-            @RequestParam("gender") String gender
-    ) {
-        System.out.println("/client/add");
-        Map<Object, Object> model = new HashMap<>();
-
-        try {
-            model.put("message", clientService.addUser(name, mail, phone, gender));
-        } catch (MailNotFoundException ex) {
-            model.put("message", "MAIL_MUST_BE_CORRECT");
-            return new ResponseEntity<>(model, HttpStatus.BAD_REQUEST);
-        } catch (MailIsAlreadyExistException ex) {
-            model.put("message", "THIS_MAIL_IS_USED_BY_ANOTHER_USER");
-            return new ResponseEntity<>(model, HttpStatus.BAD_REQUEST);
-        } catch (PhoneNotFoundException ex) {
-            model.put("message", "PHONE_MUST_BE_CORRECT");
-            return new ResponseEntity<>(model, HttpStatus.BAD_REQUEST);
-        } catch (PhoneIsAlreadyExistException ex) {
-            model.put("message", "THIS_PHONE_IS_USED_BY_ANOTHER_USER");
-            return new ResponseEntity<>(model, HttpStatus.BAD_REQUEST);
-        }
-
-        return new ResponseEntity<>(model, HttpStatus.OK);
+    @GetMapping(value = "/{id}",
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Client> getUserInfo(@PathVariable("id") Long id) {
+        log.info("get /clients/{" + id + "}");
+        return ResponseEntity.ok(clientService.getClient(id));
     }
 
-    @GetMapping(value = "/get_all", produces = "application/json;charset=UTF-8")
-    public ResponseEntity<?> getAllUsers() {
-        System.out.println("/client/get_all");
-        Map<Object, Object> model = new HashMap<>();
+    @PostMapping(value = "",
+            consumes = MediaType.APPLICATION_JSON_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Client> addUser(@Valid @RequestBody ClientDTO clientDTO) {
+        log.info("post /clients");
+        return ResponseEntity.ok(clientService.addUser(clientDTO));
+    }
 
-        model.put("Client:", Arrays.toString(clientService.getAllClients().toArray()));
-
-        return new ResponseEntity<>(model, HttpStatus.OK);
+    @GetMapping(value = "",
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<Client>> getAllUsers() {
+        log.info("get /clients");
+        return ResponseEntity.ok(clientService.getAllClients());
     }
 }

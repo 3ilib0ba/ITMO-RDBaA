@@ -22,48 +22,48 @@ values (DEFAULT, 'ООО "ФИТЕНС СИЛА И ЗДОРОВЬЕ"', '+7922987
 
 -- создание балансов для клиентов
 insert into balance
-values (1, 1000, 2);
+values (DEFAULT, 1000, 2);
 insert into balance
-values (2, 1500, 2);
+values (DEFAULT, 1500, 2);
 insert into balance
-values (3, 4000, 2);
+values (DEFAULT, 4000, 2);
 insert into balance
-values (4, 12000, 2);
+values (DEFAULT, 12000, 2);
 insert into balance
-values (5, 100, 3);
+values (DEFAULT, 100, 3);
 insert into balance
-values (6, 6000, 5);
+values (DEFAULT, 6000, 5);
 -- для студий
 insert into balance
-values (7, 30000, 4);
+values (DEFAULT, 30000, 4);
 insert into balance
-values (8, 15000, 4);
+values (DEFAULT, 15000, 4);
 insert into balance
-values (9, 77000, 4);
+values (DEFAULT, 77000, 4);
 insert into balance
-values (10, 33000, 4);
+values (DEFAULT, 33000, 4);
 
 -- студии(менеджер) к ним
 insert into studio
-values (1, 'БОГАТЫРЬ С НЕВЫ', 'ФИТНЕС КЛУБ', 4, 1, 7);
+values (DEFAULT, 'БОГАТЫРЬ С НЕВЫ', 'ФИТНЕС КЛУБ', 4, 1, 7);
 insert into studio
-values (2, 'ЙОГА ДОМ', 'ДОМ ЙОГИ', 4, 2, 8);
+values (DEFAULT, 'ЙОГА ДОМ', 'ДОМ ЙОГИ', 4, 2, 8);
 insert into studio
-values (3, 'УДАРНАЯ РАКЕТКА', 'ЦЕНТР БОЛЬШОГО ТЕННИСА', 4, 3, 9);
+values (DEFAULT, 'УДАРНАЯ РАКЕТКА', 'ЦЕНТР БОЛЬШОГО ТЕННИСА', 4, 3, 9);
 insert into studio
-values (4, 'СИЛА&ЗДОРОВЬЕ', 'ФИТНЕС, ТРЕНАЖЕРНЫЙ ЦЕНТР', 4, 4, 10);
+values (DEFAULT, 'СИЛА&ЗДОРОВЬЕ', 'ФИТНЕС, ТРЕНАЖЕРНЫЙ ЦЕНТР', 4, 4, 10);
 
 -- создали клиентуру(среди них есть админ и инструктор - одна таблица)
 insert into client
-values (DEFAULT, 'nickname123', 'oaoaoa@mail.ru', '+79217773388', 'male', 1, 1);
+values (DEFAULT, 'nickname123', 'oaoaoa@mail.ru', '+79217773388', 'MALE', 1, 1);
 insert into client
-values (DEFAULT, 'genvflow', 'needknowit@mail.ru', '+79841065001', 'female', 1, 2);
+values (DEFAULT, 'genvflow', 'needknowit@mail.ru', '+79841065001', 'FEMALE', 1, 2);
 insert into client
-values (DEFAULT, 'Xixix', 'ix_v_Xd@gmail.com', '+79214183940', 'male', 1, 3);
+values (DEFAULT, 'Xixix', 'ix_v_Xd@gmail.com', '+79214183940', 'MALE', 1, 3);
 insert into client
-values (DEFAULT, 'greg', 'geeergreg@mail.ru', '+79347573217', 'male', 1, 4);
+values (DEFAULT, 'greg', 'geeergreg@mail.ru', '+79347573217', 'MALE', 1, 4);
 insert into client
-values (DEFAULT, 'zoe_tut', 'zoe_tutu@yandex.ru', '+79156447117', 'female', 2, 5);
+values (DEFAULT, 'zoe_tut', 'zoe_tutu@yandex.ru', '+79156447117', 'FEMALE', 2, 5);
 
 -- создаем точки студий
 insert into pos
@@ -73,17 +73,17 @@ values (DEFAULT, 'ADDRESS 2', '14:00-18:00', 1);
 insert into pos
 values (DEFAULT, 'ADDRESS 3', '08:00-20:00', 2);
 insert into pos
-values (DEFAULT, 'kort 1', '06:00-22:00', 3);
+values (DEFAULT, 'KORT 1', '06:00-22:00', 3);
 insert into pos
-values (DEFAULT, 'kort 2', '06:00-22:00', 3);
+values (DEFAULT, 'KORT 2', '06:00-22:00', 3);
 insert into pos
-values (DEFAULT, 'kort 3', '06:00-22:00', 3);
+values (DEFAULT, 'KORT 3', '06:00-22:00', 3);
 insert into pos
-values (DEFAULT, 'kort 4', '10:00-22:00', 3);
+values (DEFAULT, 'KORT 4', '10:00-22:00', 3);
 insert into pos
-values (DEFAULT, 'porohovskaya 13', '08:00-22:00', 4);
+values (DEFAULT, 'POROHOVSKAYA 13', '08:00-22:00', 4);
 insert into pos
-values (DEFAULT, 'nab. fontanki 11', '08:00-22:00', 4);
+values (DEFAULT, 'NAB. FONTANKI 11', '08:00-22:00', 4);
 
 -- создаем занятия в студиях
 insert into class
@@ -103,7 +103,7 @@ values (DEFAULT, 'FREE TRAINEE', '2022-12-20', '08:00', '17:00', 1000, 8);
 
 -- создаём инструкторов
 insert into instructor
-values (1, 'ANTON', 'instructor_anton@mail.ru', '+79112273399', 'male');
+values (DEFAULT, 'ANTON', 'instructor_anton@mail.ru', '+79112273399', 'MALE');
 
 -- соединяем инструкторов и занятия
 insert into instructor_class_relation
