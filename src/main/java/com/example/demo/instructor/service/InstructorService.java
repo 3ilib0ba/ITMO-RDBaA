@@ -8,10 +8,12 @@ import com.example.demo.instructor.model.Instructor;
 import com.example.demo.instructor.repository.InstructorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Service
+@Transactional(readOnly = true)
 public class InstructorService {
     private InstructorRepository instructorRepository;
     @Autowired
@@ -25,6 +27,7 @@ public class InstructorService {
         return instructorRepository.findById(id).orElseThrow(() -> new InstructorNotFoundException(id));
     }
 
+    @Transactional
     public Instructor addInstructor(InstructorDTO instructorDTO) {
         Instructor instructorMail = instructorRepository.findByMail(instructorDTO.getMail());
         if (instructorMail != null)

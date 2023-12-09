@@ -7,13 +7,16 @@ import com.example.demo.studio.model.Studio;
 import com.example.demo.studio.repository.PositionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Service
+@Transactional(readOnly = true)
 public class PositionService {
     private PositionRepository positionRepository;
     private StudioService studioService;
+
     @Autowired
     public PositionService(
             PositionRepository positionRepository,
@@ -42,6 +45,7 @@ public class PositionService {
         return positions;
     }
 
+    @Transactional
     public Position addPositionToStudio(PositionDTO positionDTO) {
         Studio studio = studioService.getStudioById(positionDTO.getStudioId());
         return positionRepository.save(

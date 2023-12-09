@@ -4,11 +4,13 @@ import com.example.demo.general.model.Ping;
 import com.example.demo.general.repository.PingRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Time;
 import java.util.List;
 
 @Service
+@Transactional(readOnly = true)
 public class PingService {
     private PingRepository pingRepository;
     @Autowired
@@ -18,6 +20,7 @@ public class PingService {
         this.pingRepository = pingRepository;
     }
 
+    @Transactional
     public Ping addNewPingFromNow() {
         Ping pingCurrent = new Ping(
                 null,

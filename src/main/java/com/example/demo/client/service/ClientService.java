@@ -13,10 +13,12 @@ import com.example.demo.common.exceptions.PhoneIsAlreadyExistException;
 import com.example.demo.config.RoleConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Service
+@Transactional(readOnly = true)
 public class ClientService {
     private ClientRepository clientRepository;
     private RoleRepository roleRepository;
@@ -36,6 +38,7 @@ public class ClientService {
         return clientRepository.findById(id).orElseThrow(() -> new ClientNotFoundException(id));
     }
 
+    @Transactional
     public Client addUser(ClientDTO clientDTO) {
         Client clientMail = clientRepository.findByMail(clientDTO.getMail());
         if (clientMail != null)
