@@ -9,12 +9,14 @@ import com.example.demo.studio.service.PositionService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Date;
 import java.util.List;
 
 @Service
 @Slf4j
+@Transactional(readOnly = true)
 public class ClassesService {
     private ClassRepository classRepository;
     private PositionService positionService;
@@ -31,6 +33,7 @@ public class ClassesService {
         return classRepository.findById(id).orElseThrow(() -> new ClassesNotFoundException(id));
     }
 
+    @Transactional
     public Classes addClass(ClassesDTO classesDTO) {
         if (classesDTO.getStart().getTime() >= classesDTO.getEnd().getTime()) {
             throw new ClassesStartTimeGreaterOrEqualsClassesEndTimeException(

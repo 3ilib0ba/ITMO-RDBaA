@@ -8,10 +8,12 @@ import com.example.demo.classifiers.repository.ClassifierRepository;
 import com.example.demo.client.exceptions.ClientNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Service
+@Transactional(readOnly = true)
 public class ClassifiersService {
     private ClassifierRepository classifierRepository;
 
@@ -39,6 +41,7 @@ public class ClassifiersService {
         return classifierRepository.findAll();
     }
 
+    @Transactional
     public Classifier addNewClassifier(ClassifierDTO classifierDTO) {
         try {
             getClassifierByNameAndValue(classifierDTO.getName(), classifierDTO.getValue());

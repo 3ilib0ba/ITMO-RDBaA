@@ -18,10 +18,12 @@ import com.example.demo.studio.repository.StudioRepository;
 import jakarta.annotation.Nullable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Service
+@Transactional(readOnly = true)
 public class StudioService {
     private LegalInfoRepository legalInfoRepository;
     private BalanceRepository balanceRepository;
@@ -43,6 +45,7 @@ public class StudioService {
         this.positionRepository = positionRepository;
     }
 
+    @Transactional
     public LegalInfo addLegalInfo(
             String fullDescription,
             @Nullable
@@ -71,6 +74,7 @@ public class StudioService {
         return studio;
     }
 
+    @Transactional
     public Studio addStudioAndLegalInfo(StudioDTO studioDTO) {
         LegalInfo legalInfoMail = legalInfoRepository.findByMail(studioDTO.getMail());
         if (legalInfoMail != null)

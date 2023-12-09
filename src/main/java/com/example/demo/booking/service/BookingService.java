@@ -13,8 +13,10 @@ import com.example.demo.client.model.Client;
 import com.example.demo.client.service.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@Transactional(readOnly = true)
 public class BookingService {
     private BookingRepository bookingRepository;
     private ClassesService classesService;
@@ -37,6 +39,7 @@ public class BookingService {
         return bookingRepository.findById(id).orElseThrow(() -> new BookingNotFoundException(id));
     }
 
+    @Transactional
     public Booking addBooking(BookingDTO bookingDTO)  {
         Client client = clientService.getClient(bookingDTO.getClientId());
         Classes classes = classesService.getClassById(bookingDTO.getClassId());
