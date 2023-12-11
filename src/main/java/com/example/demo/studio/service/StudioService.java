@@ -29,20 +29,17 @@ public class StudioService {
     private BalanceRepository balanceRepository;
     private RoleRepository roleRepository;
     private StudioRepository studioRepository;
-    private PositionRepository positionRepository;
     @Autowired
     public StudioService(
             LegalInfoRepository legalInfoRepository,
             BalanceRepository balanceRepository,
             RoleRepository roleRepository,
-            StudioRepository studioRepository,
-            PositionRepository positionRepository
+            StudioRepository studioRepository
     ) {
         this.legalInfoRepository = legalInfoRepository;
         this.balanceRepository = balanceRepository;
         this.roleRepository = roleRepository;
         this.studioRepository = studioRepository;
-        this.positionRepository = positionRepository;
     }
 
     @Transactional

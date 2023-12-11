@@ -23,7 +23,7 @@ public class ClassifiersService {
     }
 
     public Classifier getClassifierById(Long id) {
-        return classifierRepository.findById(id).orElseThrow(() -> new ClientNotFoundException(id));
+        return classifierRepository.findById(id).orElseThrow(() -> new ClassifierNotFoundException(id));
     }
 
     public Classifier getClassifierByNameAndValue(String name, String value) {

@@ -3,6 +3,7 @@ package com.example.demo.booking.service;
 import com.example.demo.balance.model.Balance;
 import com.example.demo.balance.repository.BalanceRepository;
 import com.example.demo.booking.dto.BookingDTO;
+import com.example.demo.booking.exceptions.BookingNotFoundException;
 import com.example.demo.booking.exceptions.NotEnoughMoneyToBookException;
 import com.example.demo.booking.model.Booking;
 import com.example.demo.booking.repository.BookingRepository;
@@ -10,19 +11,16 @@ import com.example.demo.classes.model.Classes;
 import com.example.demo.classes.service.ClassesService;
 import com.example.demo.client.model.Client;
 import com.example.demo.client.service.ClientService;
-import com.example.demo.studio.model.Position;
-import com.example.demo.studio.model.Studio;
+import com.example.demo.utils.UtilsObjects;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.sql.Date;
-import java.sql.Time;
 import java.util.Optional;
 
-import static com.example.demo.utils.UtilsObjects.STUDIO_BALANCE;
+import static com.example.demo.utils.UtilsObjects.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
@@ -42,40 +40,10 @@ public class BookingServiceTest {
     private BookingService bookingService;
 
     private final Long ID = 1L;
-    private final Long CLIENT_ID = 1L;
-    private final Long CLASS_ID = 1L;
-    private final Date TOMORROW = new Date(new java.util.Date().getTime() + 86400000);
-    private final Time CLASS_START = Time.valueOf("10:00:00");
-    private final Time CLASS_END = Time.valueOf("12:00:00");
-    private final Studio STUDIO = new Studio(
-            null,
-            null,
-            null,
-            null,
-            null,
-            STUDIO_BALANCE
-    );
-    private final Position POS = new Position(
-            null,
-            null,
-            null,
-            STUDIO,
-            null
-    );
-    private final Classes CLASS1 = new Classes(
-            ID,
-            "CLASS_NAME",
-            TOMORROW,
-            CLASS_START,
-            CLASS_END,
-            100,
-            POS,
-            null
-    );
-    private final Client CLIENT = new Client();
+    private final UtilsObjects utilsObjects = new UtilsObjects();
 
     @Test
-    void getBookingById() {
+    void getBookingByIdOk() {
         Booking booking = new Booking();
         booking.setId(ID);
         when(bookingRepository.findById(ID)).thenReturn(Optional.of(booking));
@@ -86,22 +54,23 @@ public class BookingServiceTest {
     }
 
     @Test
-    void addBookingOk() {
-        Balance clientBalance = new Balance();
-        clientBalance.setId(ID);
-        clientBalance.setValue(200F);
-        CLIENT.setId(CLIENT_ID);
-        CLIENT.setBalance(clientBalance);
+    void getBookingByIdThrowBookingNotFound() {
+        assertThrows(BookingNotFoundException.class, () -> bookingService.getBookingById(ID));
+    }
 
+    @Test
+    void addBookingOk() {
+        Client client = utilsObjects.CLIENT;
+        Classes classes = utilsObjects.CLASSES;
         BookingDTO bookingDTO = new BookingDTO(
                 CLIENT_ID,
-                CLASS_ID
+                CLASSES_ID
         );
 
-        when(clientService.getClient(CLIENT_ID)).thenReturn(CLIENT);
-        when(classesService.getClassById(CLASS_ID)).thenReturn(CLASS1);
+        when(clientService.getClient(CLIENT_ID)).thenReturn(client);
+        when(classesService.getClassById(CLASSES_ID)).thenReturn(classes);
         doNothing().when(balanceRepository).setNewBalanceById(anyLong(), anyFloat());
-        Booking booking = new Booking(null, CLIENT, CLASS1);
+        Booking booking = new Booking(null, client, classes);
         when(bookingRepository.save(any())).thenReturn(booking);
 
         assertEquals(booking, bookingService.addBooking(bookingDTO));
@@ -111,19 +80,17 @@ public class BookingServiceTest {
 
     @Test
     void addBookingThrowNotEnoughMoney() {
-        Balance clientBalance = new Balance();
-        clientBalance.setId(ID);
-        clientBalance.setValue(50F);
-        CLIENT.setId(CLIENT_ID);
-        CLIENT.setBalance(clientBalance);
+        Client client = utilsObjects.CLIENT;
+        Classes classes = utilsObjects.CLASSES;
+        client.getBalance().setValue(50F);
 
         BookingDTO bookingDTO = new BookingDTO(
                 CLIENT_ID,
-                CLASS_ID
+                CLASSES_ID
         );
 
-        when(clientService.getClient(CLIENT_ID)).thenReturn(CLIENT);
-        when(classesService.getClassById(CLASS_ID)).thenReturn(CLASS1);
+        when(clientService.getClient(CLIENT_ID)).thenReturn(client);
+        when(classesService.getClassById(CLASSES_ID)).thenReturn(classes);
 
         assertThrows(NotEnoughMoneyToBookException.class, () -> bookingService.addBooking(bookingDTO));
     }
