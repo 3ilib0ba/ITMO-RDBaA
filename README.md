@@ -40,7 +40,7 @@
 
 Отчёт по работе, с подробным описанием, что и для чего было изменено [тут](docs/РБДиП_2_Иванов_Бордун.pdf).
 
-Или в ветке [refactoring-1](https://github.com/3ilib0ba/ITMO-RDBaA/pull/2)
+Или в ветке [refactoring-2](https://github.com/3ilib0ba/ITMO-RDBaA/pull/2)
 
 ### Третья группа изменений:
 
@@ -50,7 +50,7 @@
 
 Отчёт по работе, с подробным описанием, что и для чего было изменено [тут](docs/РБДиП_3_Иванов_Бордун.pdf).
 
-Или в ветке [refactoring-1](https://github.com/3ilib0ba/ITMO-RDBaA/pull/3)
+Или в ветке [refactoring-3](https://github.com/3ilib0ba/ITMO-RDBaA/pull/3)
 
 
 
